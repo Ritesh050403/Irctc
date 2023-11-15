@@ -1,0 +1,76 @@
+Yeole Ritesh Mohan :-23112044
+
+Set C:-
+
+1:-List all trains not scheduled on 10th October this year.
+Select * From Trains Where TrainID Not in(select Distinct RouteID From Trips Where TripDate ='2023-10-10');
++---------+-----------+---------+-------------------+
+| TrainID | TrainName | RouteID | MaintenanceStatus |
++---------+-----------+---------+-------------------+
+|     101 | Express1  |     101 | Yes               |
+|     102 | Express2  |     102 | No                |
+|     103 | Express3  |     103 | Yes               |
+|     105 | Express5  |     105 | Yes               |
+|     106 | Express6  |     106 | No                |
+|     107 | Express7  |     107 | Yes               |
+|     108 | Express8  |     108 | No                |
+|     109 | Express9  |     109 | Yes               |
+|     110 | Express10 |     110 | No                |
++---------+-----------+---------+-------------------+
+
+2:-List all fleets from Dharwad to Bengaluru, in ascending order of their monthly seats sold for the month of October this year.
+SELECT R.RouteID, R.BoardStation, R.ArrivedStation, SUM(B.SeatsSold) AS TotalSeatsSold FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID WHERE R.BoardStation = 'Dharwad' AND R.ArrivedStation = 'Bengaluru'   AND MONTH(B.TripDate) = 10 GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY TotalSeatsSold ASC;
++---------+--------------+----------------+----------------+
+| RouteID | BoardStation | ArrivedStation | TotalSeatsSold |
++---------+--------------+----------------+----------------+
+|     108 | Dharwad      | Bengaluru      |             61 |
++---------+--------------+----------------+----------------+
+
+
+3:-List the details of most popular route of InterCity Express Trains.
+SELECT R.RouteID, R.BoardStation, R.ArrivedStation, Sum(B.SeniorCitizenSeats) AS SeniorCitizenBookings FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID WHERE B.SeniorCitizenSeats > 0 GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY SeniorCitizenBookings DESC ;
++---------+----------------+-----------------+-----------------------+
+| RouteID | BoardStation   | ArrivedStation  | SeniorCitizenBookings |
++---------+----------------+-----------------+-----------------------+
+|     108 | Dharwad        | Bengaluru       |                    31 |
+|     103 | Secunderabad   | Visakhapatnam   |                    13 |
+|     107 | Lonavala       | Ajmer           |                    12 |
+|     105 | Mumbai         | Solapur         |                    11 |
+|     109 | Bhopal         | Indore          |                    11 |
+|     101 | Mumbai Central | Gandhinagar     |                    10 |
+|     110 | Mumbai         | Goa             |                    10 |
+|     104 | Mumbai         | Sainagar Shirdi |                     8 |
+|     106 | Bhopal         | Delhi           |                     8 |
+|     102 | New Delhi      | Himachal        |                     7 |
++---------+----------------+-----------------+-----------------------+
+
+4:-Display the details of the passengers who are frequent travellers with InterCity Express Trains. [Frequent traveller can be defined as the one who has travelled at least three times, irrespective of the route]
+select PassengerID,PassengerName From Passengers Where TripCount>=3;
++-------------+------------------+
+| PassengerID | PassengerName    |
++-------------+------------------+
+|           1 | Aarav Patel      |
+|           2 | Bhavya Singh     |
+|           3 | Chitra Desai     |
+|           4 | Devendra Yadav   |
+|           6 | Faisal Khan      |
+|           7 | Gauri Verma      |
+|           8 | Harish Joshi     |
+|           9 | Ishita Tiwari    |
+|          11 | Kiran Khanna     |
+|          12 | Lavanya Gupta    |
+|          13 | Manish Singh     |
+|          14 | Neha Agarwal     |
+|          15 | Ojasvi Verma     |
+|          17 | Quintessa Kapoor |
+|          18 | Rajeev Singh     |
+|          19 | Sanjana Walia    |
+|          20 | Shivansh Gupta   |
+|          21 | Tanvi Bakshi     |
+|          22 | Udaya Mehra      |
+|          23 | Vidya Prasad     |
++-------------+------------------+
+
+
+
+

@@ -1,0 +1,58 @@
+Patra Tanmoy Gokul - 23112028
+
+
+
+
+
+1.Show schedule of all trips including main driver information for 10th October this year.
+
+Select T.TripID,R.RouteID,R.BoardStation,R.ArrivedStation,T.TripDate,T.DriverName FROM Trips T JOIN Routes R ON T.RouteID = R.RouteID WHERE T.TripDate = '2023-10-10';
+
+
++--------+---------+--------------+-----------------+------------+------------+
+| TripID | RouteID | BoardStation | ArrivedStation  | TripDate   | DriverName |
++--------+---------+--------------+-----------------+------------+------------+
+|      4 |     104 | Mumbai       | Sainagar Shirdi | 2023-10-10 | Vivek      |
+|     14 |     104 | Mumbai       | Sainagar Shirdi | 2023-10-10 | Vik        |
++--------+---------+--------------+-----------------+------------+------------+
+
+
+
+2.List all coaches with mileage between 4000 and 4999 km covered for September this year; include information on the coach, its last service date and total number of scheduled trips.
+
+
+SELECT c.CoachID, c.TrainID, c.LastServiceDate, c.Mileage, COUNT(t.TripID) AS TotalTrips FROM Coaches c JOIN Trips t ON c.CoachID = c.CoachID WHERE c.Mileage BETWEEN 4000 AND 4999    AND YEAR(c.LastServiceDate) = YEAR(CURRENT_DATE) AND MONTH(c.LastServiceDate) = 9 GROUP BY c.CoachID, c.TrainID, c.LastServiceDate, c.Mileage;
+
+
++---------+---------+-----------------+---------+------------+
+| CoachID | TrainID | LastServiceDate | Mileage | TotalTrips |
++---------+---------+-----------------+---------+------------+
+|       7 |     107 | 2023-09-12      |    4800 |         20 |
+|       4 |     104 | 2023-09-05      |    4500 |         20 |
+|       3 |     103 | 2023-09-15      |    4200 |         20 |
++---------+---------+-----------------+---------+------------+
+
+
+4.Display the details of the routes where majority of bookings are not made by agents.
+
+Select RouteId from bookings group by RouteId having SUM(CASE WHEN AgentID IS NOT NULL THEN 1 ELSE 0 END) < SUM(CASE WHEN AgentID IS NULL THEN 1 ELSE 0 END);
+
++---------+
+| RouteId |
++---------+
+|     108 |
++---------+
+
+5.Display the details of the agents who have made maximum commission in the Month of September.
+
+SELECT A.AgentID, A.AgentName, SUM(C.Amount) AS TotalCommission FROM Agents A JOIN Commission C ON A.AgentID = C.AgentID WHERE MONTH(C.MonthYear) = 9 GROUP BY A.AgentID, A.AgentName ORDER BY TotalCommission DESC;
+
+
++---------+-----------------+-----------------+
+| AgentID | AgentName       | TotalCommission |
++---------+-----------------+-----------------+
+|       4 | Aisha Gupta     |         4300.00 |
+|       3 | Bhupinder Kumar |         3900.50 |
+|       1 | Arjun Verma     |         1500.50 |
+|       2 | Jasmine Patel   |         1200.75 |
++---------+-----------------+-----------------+
