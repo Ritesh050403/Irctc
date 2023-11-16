@@ -13,9 +13,6 @@ Group Members: Set A:-Khushikaur Gulati
 
 
 
-
-Certainly! Based on the table names you provided, here is an outline of the tables along with their potential attributes:
-
 1. **Agents:**
     - AgentID (Primary Key)
     - AgentName
