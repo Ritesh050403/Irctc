@@ -3,21 +3,21 @@ Set A : Khushikaur Gulati
 
 
 
-1.SELECT * FROM Trains WHERE RouteID IN (110,107) AND MaintenanceStatus = 'Yes';
+1.SELECT TrainID,TrainName,Routes.RouteID,MaintenanceStatus from Trains join Routes ON Trains.RouteID=Routes.RouteId where(BoardStation='Lonavala'and ArrivedStation='Ajmer'OR BoardStation='Mumbai'and ArrivedStation='Goa')AND MaintenanceStatus='Yes';
 +---------+-----------+---------+-------------------+
 | TrainID | TrainName | RouteID | MaintenanceStatus |
 +---------+-----------+---------+-------------------+
 |     107 | Express7  |     107 | Yes               |
 +---------+-----------+---------+-------------------+
 
-
-2. SELECT R.RouteID, R.BoardStation, R.ArrivedStation,        SUM(B.SeatsSold) AS TotalSeatsSold,        SUM(B.ChildSeats) AS TotalChildSeats,        SUM(B.AdultSeats) AS TotalAdultSeats,        SUM(B.SeniorCitizenSeats) AS TotalSeniorCitizenSeats FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID WHERE MONTH(B.TripDate) = 10 GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY TotalSeatsSold DESC;
-+---------+--------------+----------------+----------------+-----------------+-----------------+-------------------------+
-| RouteID | BoardStation | ArrivedStation | TotalSeatsSold | TotalChildSeats | TotalAdultSeats | TotalSeniorCitizenSeats |
-+---------+--------------+----------------+----------------+-----------------+-----------------+-------------------------+
-|     108 | Dharwad      | Bengaluru      |             61 |              10 |              28 |                      23 |
-|     110 | Mumbai       | Goa            |             50 |              10 |              30 |                      10 |
-+---------+--------------+----------------+----------------+-----------------+-----------------+-------------------------+
+2.select R.RouteId,R.Distance,R.BoardStation,R.ArrivedStation,sum(SeatsSold) AS Totalseatssold,sum(childSeats)AS Totalchildseats,sum(SeniorCitizenSeats) AS Totalseniorcitseats FROM Routes R join Book
+ desc;
++---------+----------+--------------+----------------+----------------+-----------------+---------------------+
+| RouteId | Distance | BoardStation | ArrivedStation | Totalseatssold | Totalchildseats | Totalseniorcitseats |
++---------+----------+--------------+----------------+----------------+-----------------+---------------------+
+|     108 |      432 | Dharwad      | Bengaluru      |             61 |              10 |                  23 |
+|     110 |      588 | Mumbai       | Goa            |             50 |              10 |                  10 |
++---------+----------+--------------+----------------+----------------+-----------------+---------------------+
 
 3. select * from Agents where NoOfConfBooking >=10;
 +---------+-------------+-----------------+
@@ -27,33 +27,30 @@ Set A : Khushikaur Gulati
 |       4 | Aisha Gupta |              12 |
 +---------+-------------+-----------------+
 
-4. SELECT R.RouteID, R.BoardStation, R.ArrivedStation, SUM(B.BookingID) AS SeniorCitizenBookings FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID WHERE B.SeniorCitizenSeats > 0 GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY SeniorCitizenBookings DESC;
-+---------+----------------+-----------------+-----------------------+
-| RouteID | BoardStation   | ArrivedStation  | SeniorCitizenBookings |
-+---------+----------------+-----------------+-----------------------+
-|     108 | Dharwad        | Bengaluru       |                    31 |
-|     110 | Mumbai         | Goa             |                    10 |
-|     109 | Bhopal         | Indore          |                     9 |
-|     107 | Lonavala       | Ajmer           |                     7 |
-|     106 | Bhopal         | Delhi           |                     6 |
-|     105 | Mumbai         | Solapur         |                     5 |
-|     104 | Mumbai         | Sainagar Shirdi |                     4 |
-|     103 | Secunderabad   | Visakhapatnam   |                     3 |
-|     102 | New Delhi      | Himachal        |                     2 |
-|     101 | Mumbai Central | Gandhinagar     |                     1 |
-+---------+----------------+-----------------+-----------------------+
-
-
-5. SELECT R.RouteID,  R.BoardStation, R.ArrivedStation FROM Routes R JOIN Trips T ON R.RouteID =T.RouteID WHERE T.Ontime = 'Yes' GROUP BY R.RouteId, R. BoardStation, R.ArrivedStation HAVING COUNT(T.TripID) = (SELECT COUNT(*) FROM Trips WHERE RouteID = R.RouteID);
-+---------+----------------+----------------+
-| RouteID | BoardStation   | ArrivedStation |
-+---------+----------------+----------------+
-|     101 | Mumbai Central | Gandhinagar    |
-|     102 | New Delhi      | Himachal       |
-|     103 | Secunderabad   | Visakhapatnam  |
-|     105 | Mumbai         | Solapur        |
-|     106 | Bhopal         | Delhi          |
-|     108 | Dharwad        | Bengaluru      |
-|     109 | Bhopal         | Indore         |
-|     110 | Mumbai         | Goa            |
-+---------+----------------+----------------+
+4.select R.RouteId,R.Distance,R.BoardStation,R.ArrivedStation from Bookings B join Routes R on B.RouteID=R.RouteId  where SeniorCitizenSeats=(select max(SeniorCitizenSeats) from Bookings);
++---------+----------+--------------+----------------+
+| RouteId | Distance | BoardStation | ArrivedStation |
++---------+----------+--------------+----------------+
+|     108 |      432 | Dharwad      | Bengaluru      |
++---------+----------+--------------+----------------+
+5.SELECT R.RouteId,R.Distance,R.BoardStation,R.ArrivedStation FROM Routes R join Trips T ON R.routeId=T.RouteID where OnTime='Yes';
++---------+----------+----------------+----------------+
+| RouteId | Distance | BoardStation   | ArrivedStation |
++---------+----------+----------------+----------------+
+|     101 |      548 | Mumbai Central | Gandhinagar    |
+|     102 |      412 | New Delhi      | Himachal       |
+|     103 |      500 | Secunderabad   | Visakhapatnam  |
+|     105 |      400 | Mumbai         | Solapur        |
+|     106 |      700 | Bhopal         | Delhi          |
+|     108 |      432 | Dharwad        | Bengaluru      |
+|     109 |      246 | Bhopal         | Indore         |
+|     110 |      588 | Mumbai         | Goa            |
+|     101 |      548 | Mumbai Central | Gandhinagar    |
+|     102 |      412 | New Delhi      | Himachal       |
+|     103 |      500 | Secunderabad   | Visakhapatnam  |
+|     105 |      400 | Mumbai         | Solapur        |
+|     106 |      700 | Bhopal         | Delhi          |
+|     108 |      432 | Dharwad        | Bengaluru      |
+|     109 |      246 | Bhopal         | Indore         |
+|     109 |      246 | Bhopal         | Indore         |
++---------+----------+----------------+----------------+
