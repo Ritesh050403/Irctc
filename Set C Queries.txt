@@ -3,7 +3,7 @@ Yeole Ritesh Mohan :-23112044
 Set C:-
 
 1:-List all trains not scheduled on 10th October this year.
-Select * From Trains Where TrainID Not in(select Distinct RouteID From Trips Where TripDate ='2023-10-10');
+SELECT * FROM Trains WHERE TrainID NOT IN(SELECT DISTINCT RouteID FROM Trips WHERE TripDate ='2023-10-10');
 +---------+-----------+---------+-------------------+
 | TrainID | TrainName | RouteID | MaintenanceStatus |
 +---------+-----------+---------+-------------------+
@@ -28,24 +28,23 @@ SELECT R.RouteID, R.BoardStation, R.ArrivedStation, SUM(B.SeatsSold) AS TotalSea
 
 
 3:-List the details of most popular route of InterCity Express Trains.
-SELECT R.RouteID, R.BoardStation, R.ArrivedStation, Sum(B.SeniorCitizenSeats) AS SeniorCitizenBookings FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID WHERE B.SeniorCitizenSeats > 0 GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY SeniorCitizenBookings DESC ;
-+---------+----------------+-----------------+-----------------------+
-| RouteID | BoardStation   | ArrivedStation  | SeniorCitizenBookings |
-+---------+----------------+-----------------+-----------------------+
-|     108 | Dharwad        | Bengaluru       |                    31 |
-|     103 | Secunderabad   | Visakhapatnam   |                    13 |
-|     107 | Lonavala       | Ajmer           |                    12 |
-|     105 | Mumbai         | Solapur         |                    11 |
-|     109 | Bhopal         | Indore          |                    11 |
-|     101 | Mumbai Central | Gandhinagar     |                    10 |
-|     110 | Mumbai         | Goa             |                    10 |
-|     104 | Mumbai         | Sainagar Shirdi |                     8 |
-|     106 | Bhopal         | Delhi           |                     8 |
-|     102 | New Delhi      | Himachal        |                     7 |
-+---------+----------------+-----------------+-----------------------+
-
+SELECT R.RouteID, R.BoardStation, R.ArrivedStation, Sum(B.SeatsSold) AS TotalBookings FROM Routes R JOIN Bookings B ON R.RouteID = B.RouteID GROUP BY R.RouteID, R.BoardStation, R.ArrivedStation ORDER BY TotalBookings DESC ;
++---------+----------------+-----------------+---------------+
+| RouteID | BoardStation   | ArrivedStation  | TotalBookings |
++---------+----------------+-----------------+---------------+
+|     108 | Dharwad        | Bengaluru       |           103 |
+|     107 | Lonavala       | Ajmer           |            65 |
+|     103 | Secunderabad   | Visakhapatnam   |            60 |
+|     109 | Bhopal         | Indore          |            58 |
+|     105 | Mumbai         | Solapur         |            55 |
+|     101 | Mumbai Central | Gandhinagar     |            50 |
+|     110 | Mumbai         | Goa             |            50 |
+|     106 | Bhopal         | Delhi           |            48 |
+|     104 | Mumbai         | Sainagar Shirdi |            45 |
+|     102 | New Delhi      | Himachal        |            40 |
++---------+----------------+-----------------+---------------+
 4:-Display the details of the passengers who are frequent travellers with InterCity Express Trains. [Frequent traveller can be defined as the one who has travelled at least three times, irrespective of the route]
-select PassengerID,PassengerName From Passengers Where TripCount>=3;
+SELECT PassengerID,PassengerName FROM Passengers WHERE TripCount>=3;
 +-------------+------------------+
 | PassengerID | PassengerName    |
 +-------------+------------------+
@@ -70,7 +69,6 @@ select PassengerID,PassengerName From Passengers Where TripCount>=3;
 |          22 | Udaya Mehra      |
 |          23 | Vidya Prasad     |
 +-------------+------------------+
-
 
 
 
